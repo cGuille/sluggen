@@ -1,0 +1,9 @@
+[package]
+name = "sluggen"
+version = "0.1.0"
+authors = ["Guillaume Charmetant <cguille.dev@gmail.com>"]
+edition = "2018"
+description = "Generate slugs. They can be used, for example, to identify related lines in a log file while being more readable than a UUID or numeric/random ID."
+
+[dependencies]
+rand = "*"
