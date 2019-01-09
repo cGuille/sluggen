@@ -7,3 +7,4 @@ description = "Generate slugs. They can be used, for example, to identify relate
 
 [dependencies]
 rand = "*"
+regex = "*"

@@ -1,6 +1,8 @@
 extern crate rand;
+extern crate regex;
 
 use rand::Rng;
+use regex::Regex;
 
 const ADJECTIVES: &str = include_str!("../data/adjectives.txt");
 const ADJECTIVES_COUNT: usize = 18185;
@@ -12,21 +14,19 @@ pub fn random() -> String {
     let adjective_line: usize = rand::thread_rng().gen_range(0, ADJECTIVES_COUNT);
     let noun_line: usize = rand::thread_rng().gen_range(0, NOUNS_COUNT);
 
-    let adjective = get_line_from(ADJECTIVES, adjective_line)
-        .to_lowercase()
-        .replace("_", "-")
-        .replace("/", "-");
+    let adjective = get_line_from(ADJECTIVES, adjective_line);
+    let noun = get_line_from(NOUNS, noun_line);
 
-    let noun = get_line_from(NOUNS, noun_line)
-        .to_lowercase()
-        .replace("_", "-")
-        .replace("/", "-");
-
-    format!("{}-{}", adjective, noun)
+    format!("{}-{}", slugify(adjective), slugify(noun))
 }
 
-fn get_line_from(content: &str, line_num: usize) -> String {
-    content.lines().nth(line_num).unwrap().to_string()
+fn slugify(value: &str) -> String {
+    let non_slug_chars = Regex::new(r"[^A-Za-z]+").unwrap();
+    non_slug_chars.replace_all(value, "-").to_lowercase()
+}
+
+fn get_line_from(content: &str, line_num: usize) -> &str {
+    content.lines().nth(line_num).unwrap()
 }
 
 #[cfg(test)]
@@ -34,6 +34,11 @@ mod tests {
     #[test]
     fn random_slug_generation() {
         println!("{}", super::random());
+    }
+
+    #[test]
+    fn slugify() {
+        assert_eq!(super::slugify("OHAI-00_ :) that works"), "ohai-that-works");
     }
 
     #[test]
