@@ -35,4 +35,23 @@ mod tests {
     fn it_works() {
         println!("{}", super::random());
     }
+
+    #[test]
+    fn get_line_from() {
+        let content = "First line
+Second line";
+
+        assert_eq!(super::get_line_from(content, 0), "First line");
+        assert_eq!(super::get_line_from(content, 1), "Second line");
+    }
+
+    #[test]
+    #[should_panic]
+    fn get_line_from_panics() {
+        let content = "First line
+Second line";
+
+        // valid indices are 0 and 1, so 2 should make the fn panic:
+        super::get_line_from(content, 2);
+    }
 }
