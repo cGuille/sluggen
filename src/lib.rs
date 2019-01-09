@@ -32,7 +32,7 @@ fn get_line_from(content: &str, line_num: usize) -> String {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn it_works() {
+    fn random_slug_generation() {
         println!("{}", super::random());
     }
 
